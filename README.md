@@ -46,6 +46,7 @@ int main()
 }
 ```
 OUTPUT:
+
 ![Screenshot 2023-10-06 085602](https://github.com/swetha1510/EX.5-IMPLEMENTATION-OF-CPU-SCHEDULING-ALGORITHMS/assets/120623583/06838deb-09be-43e2-9fdf-7b3c843caf16)
 
 RESULT:
@@ -122,13 +123,98 @@ Shortest Job First (SJF) Non-Preemptive Scheduling is a scheduling algorithm tha
 
 PROGRAM:
 ```
+#include <stdio.h>
 
+int main() {
+    int n;
+    printf("Enter the number of processes: ");
+    scanf("%d", &n);
+
+    int process_id[10];
+    int arrival_time[10];
+    int burst_time[10];
+    int completion_time[10];
+    int waiting_time[10];
+    int turnaround_time[10];
+
+    // Input process information
+    for (int i = 0; i < n; i++) {
+        process_id[i] = i + 1;
+        printf("Enter arrival time for process %d: ", process_id[i]);
+        scanf("%d", &arrival_time[i]);
+        printf("Enter burst time for process %d: ", process_id[i]);
+        scanf("%d", &burst_time[i]);
+    }
+
+    // Perform SJF Non-Preemptive Scheduling
+    for (int i = 0; i < n - 1; i++) {
+        for (int j = 0; j < n - i - 1; j++) {
+            if (arrival_time[j] > arrival_time[j + 1]) {
+                // Swap arrival_time
+                int temp = arrival_time[j];
+                arrival_time[j] = arrival_time[j + 1];
+                arrival_time[j + 1] = temp;
+
+                // Swap burst_time
+                temp = burst_time[j];
+                burst_time[j] = burst_time[j + 1];
+                burst_time[j + 1] = temp;
+
+                // Swap process_id
+                temp = process_id[j];
+                process_id[j] = process_id[j + 1];
+                process_id[j + 1] = temp;
+            }
+        }
+    }
+
+    int time = 0; // Current time
+
+    for (int i = 0; i < n; i++) {
+        // Find the process with the smallest burst time that has arrived
+        int shortest_job = -1;
+        int shortest_time = 10000; // A large initial value
+
+        for (int j = 0; j < n; j++) {
+            if (arrival_time[j] <= time && burst_time[j] < shortest_time && burst_time[j] != -1) {
+                shortest_job = j;
+                shortest_time = burst_time[j];
+            }
+        }
+
+        if (shortest_job == -1) {
+            // No process is available to run at this time
+            time++;
+        } else {
+            // Execute the selected process
+            completion_time[shortest_job] = time + burst_time[shortest_job];
+            waiting_time[shortest_job] = completion_time[shortest_job] - arrival_time[shortest_job] - burst_time[shortest_job];
+            turnaround_time[shortest_job] = waiting_time[shortest_job] + burst_time[shortest_job];
+            time = completion_time[shortest_job];
+            burst_time[shortest_job] = -1; // Mark the process as completed
+        }
+    }
+
+    // Display the scheduling information
+    printf("\n-----------------------------------\n");
+    printf("Process\tAT\tBT\tCT\tWT\tTAT\n");
+    printf("-----------------------------------\n");
+    for (int i = 0; i < n; i++) {
+        printf("P%d\t%d\t%d\t%d\t%d\t%d\n", process_id[i], arrival_time[i],
+               burst_time[i], completion_time[i], waiting_time[i],
+               turnaround_time[i]);
+    }
+    printf("-----------------------------------\n");
+
+    return 0;
+}
 
 ```
 OUTPUT:
+![Screenshot 2023-10-06 092448](https://github.com/swetha1510/EX.5-IMPLEMENTATION-OF-CPU-SCHEDULING-ALGORITHMS/assets/120623583/2163daf0-b333-4408-843f-7ca6a8cd7c5c)
 
-
-RESULT: Shortest Job First (SJF) Non-preemptive scheduling is implemented successfully.
+RESULT: 
+Shortest Job First (SJF) Non-preemptive scheduling is implemented successfully.
 
 AIM:
 To implement Round Robin (RR) Scheduling
@@ -200,6 +286,7 @@ int main()
 }
 ```
 OUTPUT:
+
 ![Screenshot 2023-10-06 090939](https://github.com/swetha1510/EX.5-IMPLEMENTATION-OF-CPU-SCHEDULING-ALGORITHMS/assets/120623583/9ce21682-e79d-4646-b76a-789f1e4f373c)
 
 RESULT:  
@@ -287,7 +374,8 @@ int main()
     return 0;
 }
 ```
-OUTPUT:
+OUTPUT: 
+
 ![Screenshot 2023-10-06 091440](https://github.com/swetha1510/EX.5-IMPLEMENTATION-OF-CPU-SCHEDULING-ALGORITHMS/assets/120623583/6746d88d-1205-41b9-917c-2cf0e2e92637)
 
 RESULT:
@@ -374,9 +462,9 @@ int main()
 	return 0;
 }
 ```
-
-OUTPUT:
+OUTPUT: 
 ![Screenshot 2023-10-06 091640](https://github.com/swetha1510/EX.5-IMPLEMENTATION-OF-CPU-SCHEDULING-ALGORITHMS/assets/120623583/7cb9fdb6-1009-47ac-bb93-836266cd3f38)
 
-RESULT: Priority Non-preemptive scheduling is implemented successfully.
+RESULT:
+Priority Non-preemptive scheduling is implemented successfully.
 
