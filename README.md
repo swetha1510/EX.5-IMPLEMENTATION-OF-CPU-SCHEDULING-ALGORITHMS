@@ -463,6 +463,7 @@ int main()
 }
 ```
 OUTPUT: 
+
 ![Screenshot 2023-10-06 091640](https://github.com/swetha1510/EX.5-IMPLEMENTATION-OF-CPU-SCHEDULING-ALGORITHMS/assets/120623583/7cb9fdb6-1009-47ac-bb93-836266cd3f38)
 
 RESULT:
